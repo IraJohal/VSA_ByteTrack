@@ -80,10 +80,11 @@ class YOLOv7:
                     for *xyxy, conf, cls in reversed(det):
                         raw_detection = np.concatenate((raw_detection, [[int(xyxy[0]), int(xyxy[1]), int(xyxy[2]), int(xyxy[3]), round(float(conf), 2), int(cls)]]))
 
-            if track:
-                raw_detection = self.tracker.update(raw_detection)
+            return raw_detection
             
-            detections = Detections(raw_detection, self.classes, tracking=track).to_dict()
+     def detect_2(self, raw_detection)       
+          with torch.no_grad():  
+            detections = Detections(raw_detection, self.classes, tracking=True).to_dict()
 
             if len(self.settings['ocr_classes']) > 0 and self.text_recognizer is not None:
                 for detection in detections:
