@@ -27,12 +27,12 @@ try:
     while video.isOpened():
         ret, frame = video.read()
         if ret == True:
-            	detections = yolov7.detect(frame)
-		detections = tracker.update(detections)
-		detections = yolov7.detect_2(detections)
-		detected_frame = draw(frame, detections)
-		output.write(detected_frame)
-            	pbar.update(1)
+            detections = yolov7.detect(frame)
+	    detections = tracker.update(detections)
+	    detections = yolov7.detect_2(detections)
+	    detected_frame = draw(frame, detections)
+	    output.write(detected_frame)
+            pbar.update(1)
         else:
             break
 except KeyboardInterrupt:
