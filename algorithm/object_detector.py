@@ -82,7 +82,7 @@ class YOLOv7:
 
             return raw_detection
             
-     def detect_2(self, raw_detection)       
+     def detect_2(self, raw_detection):       
           with torch.no_grad():  
             detections = Detections(raw_detection, self.classes, tracking=True).to_dict()
 
