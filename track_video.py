@@ -2,6 +2,7 @@ from algorithm.object_detector import YOLOv7
 from utils.detections import draw
 from tqdm import tqdm
 import cv2
+from byte_tracker import BYTETracker
 
 yolov7 = YOLOv7()
 yolov7.load('best_felix.pt', classes='coco.yaml', device='gpu') # use 'gpu' for CUDA GPU inference
@@ -20,14 +21,18 @@ if video.isOpened() == False:
 print('[+] tracking video...\n')
 pbar = tqdm(total=frames_count, unit=' frames', dynamic_ncols=True, position=0, leave=True)
 
+tracker = BYTETracker()
+
 try:
     while video.isOpened():
         ret, frame = video.read()
         if ret == True:
-            detections = yolov7.detect(frame, track=True)
-            detected_frame = draw(frame, detections)
-            output.write(detected_frame)
-            pbar.update(1)
+            	detections = yolov7.detect(frame)
+		detections = tracker.update(detections)
+		detections = yolov7.detect_2(detections)
+		detected_frame = draw(frame, detections)
+		output.write(detected_frame)
+            	pbar.update(1)
         else:
             break
 except KeyboardInterrupt:
