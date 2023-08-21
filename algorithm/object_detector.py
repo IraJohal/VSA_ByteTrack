@@ -85,16 +85,4 @@ class YOLOv7:
      def detect_2(self, raw_detection):       
           with torch.no_grad():  
             detections = Detections(raw_detection, self.classes, tracking=True).to_dict()
-
-            if len(self.settings['ocr_classes']) > 0 and self.text_recognizer is not None:
-                for detection in detections:
-                    if detection['class'] in self.settings['ocr_classes']:
-                        cropped_box = crop(im0, detection)
-                        text = ''
-                        try:
-                            text = self.text_recognizer.read(cropped_box)['text']
-                        except:
-                            pass
-                        detection['text'] = text
-            
             return detections
