@@ -138,3 +138,14 @@ def draw(image, detections):
         bottom_right_point = {'x':box['x'] + width, 'y':box['y'] + height}
         image_copy = plot_box(image_copy, top_left_point, bottom_right_point, width, height, label, color=color)
     return image_copy
+
+
+def get_class(detections,class_name):
+    cls = []
+    for det in detections:
+         if yolov7.classes[int(det[5])].get('name') == class_name:
+              tm1.append(det)
+    cls = np.array(cls)
+    return cls
+        
+    
